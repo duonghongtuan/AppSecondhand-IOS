@@ -23,17 +23,17 @@ struct LoginView: View {
                 }
                 VStack(alignment: .leading){
                     TextField("", text: $viewModel.userName)
-                        .padding(2.0)
+                        .padding(4.0)
                         .background()
                         .cornerRadius(8)
                     SecureField("",text: $viewModel.password)
-                        .padding(2.0)
+                        .padding(4.0)
                         .background()
                         .cornerRadius(8)
                 }
             }
             .padding()
-            .background(Color.green)
+            .background(Color.blue3)
             .cornerRadius(12)
             
             
@@ -41,11 +41,12 @@ struct LoginView: View {
                 viewModel.login(context: viewContext, mode: mode)
             }, label: {
                     Text("Đăng nhập")
+                    .foregroundColor(.white)
                         .font(.system(size: 16, weight: .semibold))
                         
             })
             .padding()
-            .background(.green)
+            .background(.blue)
             .cornerRadius(16)
 
             

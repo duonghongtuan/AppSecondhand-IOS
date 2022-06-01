@@ -51,7 +51,8 @@ struct ContentView: View {
                                 tabViewModel.switchTab(tab: item.active)
                             }
                             .padding(.horizontal)
-                            .padding(.vertical, 4.0)
+                            .padding(.top, 4.0)
+                            .padding(.bottom)
                             Spacer()
                         }
                 }

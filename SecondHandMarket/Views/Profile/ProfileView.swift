@@ -21,7 +21,7 @@ struct ProfileView: View {
         if users.isEmpty == false{
             let _ = viewModel.imageAvatar(url: users[0].avatar!)
         }
-        VStack{
+        VStack(spacing:0){
             if users.isEmpty == false{
                 VStack {
                     HStack(alignment: .center) {
@@ -40,7 +40,7 @@ struct ProfileView: View {
                         
                         VStack(alignment: .leading) {
                             Text(users[0].name!)
-                                .foregroundColor(.white)
+                                .foregroundColor(.blue)
                             .font(.title3)
                             Text(users[0].phoneNumber!)
                         }
@@ -48,8 +48,9 @@ struct ProfileView: View {
                     }
                 }
                 .padding()
-                .background(Color.blue3)
+                .background(LinearGradient(colors: [Color.white, Color.green], startPoint: .top, endPoint: .bottom))
             }
+            
             List(){
                 if users.isEmpty{
                     NavigationLink(destination: RegisterView()
@@ -81,10 +82,7 @@ struct ProfileView: View {
                 }
                 
             }
-            .padding(.top, -8.0)
-            
         }
-        
     }
 }
 

@@ -13,6 +13,7 @@ class ImageViewModel: ObservableObject{
     @Published var isPresentingImagePicker = false
     @Published var showActionSheet = false
     private(set) var sourceType: ImagePicker.SourceType = .camera
+    @Published var images = [UIImage]()
     
     
     
@@ -48,6 +49,9 @@ class ImageViewModel: ObservableObject{
     
     func didSelectImage(_ image: UIImage?) {
         selectedImage = image
+        if let image = image{
+            images.append(image)
+        }
         isPresentingImagePicker = false
     }
 }

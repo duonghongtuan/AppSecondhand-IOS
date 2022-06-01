@@ -21,7 +21,7 @@ class CategoryService{
                         var array : [Category] = []
                         for document in querySnapshot!.documents {
                             let data = document.data()
-                            let category = Category(id: data["id"] as! String,name: data["name"] as! String)
+                            let category = Category(id: data["id"] as! String,name: data["name"] as! String, companies: data["companies"] as! [String])
                             array.append(category)
                         }
                         completion(array)
