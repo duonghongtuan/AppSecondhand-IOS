@@ -21,45 +21,23 @@ import Foundation
 //    var description: String {get set}
 //}
 
-class Object{
-    func convertObjectToArrayStringAny()-> [String: Any]{
-        let mirror = Mirror(reflecting: self)
-        var array = [String: Any]()
-        
-        for child in mirror.children{
-            array[child.label!] = child.value
-        }
-        return array
-    }
-}
-
-class Product:Object,Identifiable{
-    
-    var id: String = ""
-    
+class Post:Object{
+    var id: String = "\(UUID())"
     var categoryId: String = ""
-    
+    var userId: String = ""
+    var auctionId: String = ""
+    var address: String = ""
     var name: String = ""
-    
     var company: String  = ""
-    
     var status: String = ""
-    
     var createDate: Int64 = 0
-    
     var lastUpdate: Int64 = 0
-    
     var images: [String] = []
-    
     var price: String = ""
-    
     var total: String = ""
-    
     var description: String = ""
-    
     var ram: String = ""
     var screen: String = ""
-    var hardDrive: String = ""
     var memory: String = ""
     var color: String = ""
 }

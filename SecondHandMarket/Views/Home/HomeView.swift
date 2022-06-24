@@ -8,8 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var viewModel : ViewModel
+    var columns: [GridItem] =
+             Array(repeating: .init(.flexible()), count: 2)
+    @State var isActive : Bool = false
+    
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            HomeHeaderView()
+            FreshScrollView{
+                LazyVGrid(columns: columns, spacing: 8) {
+                    ForEach(viewModel.posts){post in
+                        
+                            ProductHomeView(post: post)
+                               
+                    }
+                }
+            }action: {
+                viewModel.getAllPost()
+            }
+            .padding(.horizontal, 8.0)
+            .background(Color.background)
+        }
     }
 }
 

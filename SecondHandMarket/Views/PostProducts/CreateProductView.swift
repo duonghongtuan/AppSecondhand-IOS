@@ -1,5 +1,5 @@
 //
-//  CreateProductView.swift
+//  CreatepostView.swift
 //  SecondHandMarket
 //
 //  Created by HongTuan on 5/28/22.
@@ -7,20 +7,23 @@
 
 import SwiftUI
 
-struct CreateProductView: View {
+struct CreatePostView: View {
     @EnvironmentObject var viewModel : PostViewModel
     var body: some View {
         VStack(alignment: .leading) {
-            EditTextView(lable: "Tên sản phẩm:", text: $viewModel.product.name)
-            EditTextView(lable: "Tình trạng sản phẩm", text: $viewModel.product.status)
-            EditTextView(lable: "Gía:", text: $viewModel.product.price)
-            EditTextView(lable: "Số Lượng:", text: $viewModel.product.total)
-            EditTextView(lable: "Dung lượng ram:", text: $viewModel.product.ram)
-            EditTextView(lable: "Kích thước màn hinh:", text: $viewModel.product.screen)
-            EditTextView(lable: "Bộ nhớ:", text: $viewModel.product.memory)
-            EditTextView(lable: "Màu sắc", text: $viewModel.product.color)
+            VStack{
+                EditTextView(lable: "Tên sản phẩm:", text: $viewModel.post.name)
+                EditTextView(lable: "Tình trạng sản phẩm", text: $viewModel.post.status)
+                EditTextView(lable: "Gía:", text: $viewModel.post.price)
+                EditTextView(lable: "Số Lượng:", text: $viewModel.post.total)
+                EditTextView(lable: "Dung lượng ram:", text: $viewModel.post.ram)
+                EditTextView(lable: "Kích thước màn hinh:", text: $viewModel.post.screen)
+                EditTextView(lable: "Bộ nhớ:", text: $viewModel.post.memory)
+                EditTextView(lable: "Màu sắc", text: $viewModel.post.color)
+                EditTextView(lable: "Địa chỉ", text: $viewModel.post.address)
+            }
             Text("Mô tả sản phẩm:")
-            TextEditor(text: $viewModel.product.description)
+            TextEditor(text: $viewModel.post.description)
                 .padding(6.0)
                 .overlay(
                         RoundedRectangle(cornerRadius: 8)
@@ -32,9 +35,9 @@ struct CreateProductView: View {
     }
 }
 
-struct CreateProductView_Previews: PreviewProvider {
+struct CreatePostView_Previews: PreviewProvider {
     static var previews: some View {
-        CreateProductView()
+        CreatePostView()
             .environmentObject(PostViewModel())
     }
 }

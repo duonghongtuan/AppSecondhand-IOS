@@ -9,17 +9,21 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject var tabViewModel = TabViewModel()
+    @StateObject var postViewModel = PostViewModel()
+    @StateObject var viewModel = ViewModel()
+
     @Environment(\.managedObjectContext) private var viewContext
     
     var body: some View {
-        VStack{
+        VStack(spacing: 0){
             TabView(selection: $tabViewModel.active){
                 HomeView()
+                    .environmentObject(viewModel)
                     .tag(Tabs.tab1)
                 ManagementView()
                     .tag(Tabs.tab2)
-                PostProductView()
-                    .tag(Tabs.tab3)
+//                PostProductView()
+//                    .tag(Tabs.tab3)
                 NotificationView()
                     .tag(Tabs.tab4)
                 ProfileView()
@@ -27,7 +31,6 @@ struct ContentView: View {
                     .tag(Tabs.tab5)
             }
             .tabViewStyle(.page(indexDisplayMode: .never))
-            .padding(.bottom, -8.0)
             
             VStack {
                 HStack{
@@ -48,7 +51,11 @@ struct ContentView: View {
                                     .foregroundColor(tabViewModel.active == item.active ? .green : .gray)
                             }
                             .onTapGesture {
-                                tabViewModel.switchTab(tab: item.active)
+                                if item.active == Tabs.tab3{
+                                    postViewModel.showPostView.toggle()
+                                }else{
+                                    tabViewModel.switchTab(tab: item.active)
+                                }
                             }
                             .padding(.horizontal)
                             .padding(.top, 4.0)
@@ -59,6 +66,10 @@ struct ContentView: View {
                 
             }
         }
+        .sheet(isPresented: $postViewModel.showPostView, content: {
+            PostProductView()
+                .environmentObject(postViewModel)
+        })
     }
 }
 

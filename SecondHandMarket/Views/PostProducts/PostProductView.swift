@@ -1,5 +1,5 @@
 //
-//  PostProductView.swift
+//  PostpostView.swift
 //  SecondHandMarket
 //
 //  Created by HongTuan on 5/14/22.
@@ -8,74 +8,82 @@
 import SwiftUI
 
 struct PostProductView: View {
-    @StateObject var viewModel = PostViewModel()
-    @State var category: String = ""
-    @State var showCategories : Bool = true
-    @State var showCompanies : Bool = true
+    @EnvironmentObject var viewModel : PostViewModel
+    
     var body: some View {
         VStack {
-            HStack{
-                Spacer()
-                Button(action: {
-                    viewModel.createProduct()
-                }, label: {
-                    Text("Đăng sản phẩm")
-                        .font(.system(size: 20, weight: .semibold))
-                })
+            ZStack {
+                HStack{
+                    Text("Tạo bài")
+                        .font(.system(size: 18, weight: .semibold))
+                }
+                HStack{
+                    Spacer()
+                    Button(action: {
+                        viewModel.createPost()
+                    }, label: {
+                        Text("Đăng")
+                            .font(.system(size: 16, weight: .semibold))
+                    })
+                }
             }
+            .padding(.horizontal)
+            .padding(.bottom, 2.0)
+            .padding(.top, 6.0)
+            
             List{
                 Button(action: {
                     withAnimation(.easeOut){
-                        showCategories.toggle()
+                        viewModel.showCategories.toggle()
                     }
                 }, label: {
                     HStack {
                         Text("Mặt hàng: ")
                             .foregroundColor(.black)
-                        Text(category)
+                        Text(viewModel.category)
                         Spacer()
                         Image(systemName: "chevron.right")
                             .foregroundColor(.gray1)
-                            .rotationEffect(Angle(degrees: showCategories ? 90.0 : 0))
+                            .rotationEffect(Angle(degrees: viewModel.showCategories ? 90.0 : 0))
                         
                     }
                 })
-                if showCategories{
+                if viewModel.showCategories{
                     ForEach(viewModel.categoris){ category in
                         HStack {
                             Spacer()
                             Text(category.name)
                             Spacer()
                         }.onTapGesture {
-                            self.category = category.name
+                            viewModel.category = category.name
                             withAnimation(.easeOut){
-                                showCategories = false
+                                viewModel.showCategories = false
                                 viewModel.selectCategory(category: category)
-                                showCompanies = true
+                                    viewModel.showCompanies = true
                             }
                         }
                     }
                 }
-                if viewModel.product.categoryId != ""{
+                if viewModel.post.categoryId != ""{
                     Button(action: {
                         withAnimation(.easeOut){
-                            showCompanies.toggle()
+                            viewModel.showCompanies.toggle()
                         }
                     }, label: {
                         HStack {
                             Text("Công ty: ")
                                 .foregroundColor(.black)
-                            Text(viewModel.product.company)
+                            Text(viewModel.post.company)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.gray1)
-                                .rotationEffect(Angle(degrees: showCompanies ? 90.0 : 0))
+                                .rotationEffect(Angle(degrees: viewModel.showCompanies ? 90.0 : 0))
                             
                         }
                     })
                 }
                 
-                if showCompanies{
+                if viewModel.showCompanies{
                     if let companies = viewModel.companies{
                         ForEach(companies, id : \.self){ company in
                             HStack{
@@ -85,17 +93,17 @@ struct PostProductView: View {
                             }
                             .onTapGesture {
                                 withAnimation(.easeOut){
-                                    showCompanies = false
-                                    viewModel.product.company = company
+                                    viewModel.showCompanies = false
+                                    viewModel.post.company = company
                                 }
                             }
                         }
                     }
                 }
-                if viewModel.product.company != ""{
+                if viewModel.post.company != ""{
                     ImagesProductView()
                         .environmentObject(viewModel)
-                    CreateProductView()
+                    CreatePostView()
                         .environmentObject(viewModel)
                 }
             

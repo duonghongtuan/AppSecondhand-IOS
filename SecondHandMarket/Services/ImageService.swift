@@ -11,9 +11,9 @@ import FirebaseFirestore
 import FirebaseStorage
 import SwiftUI
 
-func convertImageToBase64String (img: UIImage) -> String {
-    return img.jpegData(compressionQuality: 0.2)?.base64EncodedString() ?? ""
-}
+//func convertImageToBase64String (img: UIImage) -> String {
+//    return img.jpegData(compressionQuality: 0.2)?.base64EncodedString() ?? ""
+//}
 
 func convertBase64StringToImage (imageBase64String:String,completion: @escaping (UIImage) -> Void){
     DispatchQueue.main.async {
@@ -23,23 +23,6 @@ func convertBase64StringToImage (imageBase64String:String,completion: @escaping 
         }
         guard let image = UIImage(data: imageData) else{return}
         completion(image)
-    }
-}
-
-extension UIImage {
-    var base64: String? {
-        self.jpegData(compressionQuality: 0.5)?.base64EncodedString()
-    }
-}
-
-extension String {
-    var imageFromBase64: UIImage? {
-        print(self)
-        guard let imageData = Data(base64Encoded: self, options: .ignoreUnknownCharacters) else {
-            print("Error: couldn't create UIImage")
-            return nil
-        }
-        return UIImage(data: imageData)
     }
 }
 

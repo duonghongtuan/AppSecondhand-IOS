@@ -10,17 +10,22 @@ import SwiftUI
 struct ImagesProductView: View {
     @StateObject var imageViewModel = ImageViewModel()
     @EnvironmentObject var viewModel : PostViewModel
+    func didSelectImage(_ image: UIImage?) {
+        imageViewModel.didSelectImage(image)
+        if let image = image{
+            viewModel.addImage(image: image)
+        }
+    }
     var body: some View {
-        
         VStack(alignment: .leading) {
             ScrollView(.horizontal){
-                if let images = imageViewModel.images{
+                if let images = viewModel.images{
                     HStack {
                         ForEach(images, id: \.self){ image in
                             Image(uiImage: image)
                                 .resizable()
                                 .scaledToFit()
-                            .frame(width: Screen.width*3/4, height: 250)
+                            .frame(height: 250)
                         }
                     }
                 }
@@ -37,7 +42,9 @@ struct ImagesProductView: View {
             .cornerRadius(8)
         }
         .fullScreenCover(isPresented: $imageViewModel.isPresentingImagePicker, content: {
-            ImagePicker(sourceType: imageViewModel.sourceType, completionHandler: imageViewModel.didSelectImage)
+            
+            ImagePicker(sourceType: imageViewModel.sourceType, completionHandler: didSelectImage)
+            
         })
         .actionSheet(isPresented: $imageViewModel.showActionSheet) {
             imageViewModel.actionSheetView()

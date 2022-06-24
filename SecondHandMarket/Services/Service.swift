@@ -13,10 +13,6 @@ class Service{
         return Authentication()
     }
     
-    func productService() ->ProductService{
-        return ProductService()
-    }
-    
     func imageService()  ->ImageService{
         return ImageService()
     }

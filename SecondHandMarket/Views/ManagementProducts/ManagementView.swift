@@ -8,10 +8,24 @@
 import SwiftUI
 
 struct ManagementView: View {
+    @StateObject var viewModel = ManagerPostViewModel()
     var body: some View {
-        VStack {
-            Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        VStack(spacing: 0) {
+            FreshScrollView{
+                if viewModel.posts.isEmpty{
+                    ActivityIndicator(isAnimating: $viewModel.load, style: .large)
+                        
+                }else{
+                    ForEach(viewModel.posts){ post in
+                        PostRowView(post: post)
+                    }
+                }
+                
+            }action: {
+                viewModel.getPostOfUser()
+            }
         }
+        .background(Color.background)
     }
 }
 

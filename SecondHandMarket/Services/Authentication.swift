@@ -29,23 +29,25 @@ class Authentication{
     }
     
     func getUser(id: String,completion: @escaping (User) -> Void){
-        let usersRef = db.collection("users")
-        let user = usersRef.whereField("id", isEqualTo: id)
-        user.getDocuments(){
-            (querySnapshot, err) in
-                    if let err = err {
-                        print("Error getting documents: \(err)")
-                    } else {
-                        
-                        for document in querySnapshot!.documents {
-                            let data = document.data()
-                            let user = User(id: data["id"] as! String, name: data["name"] as! String, email: data["email"] as! String, phoneNumber: data["phoneNumber"] as! String, address: data["address"] as! String, avatar: data["avatar"] as! String, productIds: data["productIds"] as! [String])
-                            completion(user)
-                        }
-                    }
-            
-        }
         
+        let docRef = db.collection("users").document(id)
+        
+        docRef.getDocument { (document, error) in
+            if let document = document, document.exists{
+                let decoder = JSONDecoder()
+                let arrayObject = document.data()
+                
+                do {
+                    let jsonData = try JSONSerialization.data(withJSONObject: arrayObject as Any, options: [])
+                    let object = try decoder.decode(User.self, from: jsonData)
+                    completion(object)
+                } catch {
+                    print(error.localizedDescription)
+                }
+            } else {
+                print("Document does not exist")
+            }
+        }
     }
     
     func register(password: String,user: User, completion: @escaping (Bool) -> Void){
@@ -68,23 +70,16 @@ class Authentication{
     }
     
     func addUser(user: User, id : String, completion: @escaping (Bool) -> Void){
-        let data: [String: Any]=[
-            "id": id,
-            "name": user.name,
-            "email": user.email,
-            "phoneNumber": user.phoneNumber,
-            "address": user.address,
-            "avatar": user.avatar,
-            "productIds": user.productIds
-            
-        ]
-        var ref: DocumentReference? = nil
-        ref = db.collection("users").addDocument(data: data) { err in
+        var objUser = user
+        objUser.id = id
+        let data = objUser.convertObjectToArrayStringAny()
+        
+        db.collection("users").document(id).setData(data) { err in
             if let err = err {
                 print("Error adding document: \(err)")
                 completion(false)
             } else {
-                print("Document added with ID: \(ref!.documentID)")
+                print("Document added with ID: \(id)")
                 completion(true)
             }
         }

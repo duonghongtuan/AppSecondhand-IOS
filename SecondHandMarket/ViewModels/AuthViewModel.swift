@@ -23,7 +23,7 @@ class AuthViewModel: ObservableObject{
     init(service: Service = Service()){
         self.service = service
         self.auth = service.auth()
-        user = User(name: "", email: "", phoneNumber: "", address: "", avatar: "", productIds: [])
+        user = User(name: "", email: "", phoneNumber: "", address: "", avatar: "", productIds: [], cartIds: [],orderIds: [], follows: [])
     }
     
     func createUserCD(context:NSManagedObjectContext, user: User){

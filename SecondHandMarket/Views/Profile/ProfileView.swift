@@ -20,6 +20,7 @@ struct ProfileView: View {
     var body: some View {
         if users.isEmpty == false{
             let _ = viewModel.imageAvatar(url: users[0].avatar!)
+            
         }
         VStack(spacing:0){
             if users.isEmpty == false{
@@ -28,11 +29,13 @@ struct ProfileView: View {
                         if let image = viewModel.avatar{
                             Image(uiImage: image)
                                 .resizable()
+                                .scaledToFill()
                                 .frame(width: 80, height: 80)
                                 .cornerRadius(40)
                         }else{
                             Image(systemName: "person.circle")
                                 .resizable()
+                                .scaledToFit()
                                 .frame(width: 80, height: 80)
                                 .cornerRadius(40)
                         }
